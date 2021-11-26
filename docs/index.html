@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140332927-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140332927-1');
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174254593-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-174254593-2');
+</script>
+<title>COCO-FUNIT Project Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta property="og:image" content="images/teaser_new.mov.gif"/>
+
+<meta property="og:title" content="COCO-FUNIT: Few-Shot Unsupervised Image Translation with a Content Conditioned Style Encoder"/>
+
+<script src="lib.js" type="text/javascript"></script>
+<script src="popup.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// redefining default features
+var _POPUP_FEATURES = 'width=500,height=300,resizable=1,scrollbars=1,titlebar=1,status=1';
+</script>
+<link media="all" href="glab.css" type="text/css" rel="StyleSheet">
+<style type="text/css" media="all">
+
+#primarycontent {
+	MARGIN-LEFT: auto; ; WIDTH: expression(document.body.clientWidth >
+1000? "1000px": "auto" ); MARGIN-RIGHT: auto; TEXT-ALIGN: left; max-width:
+1000px }
+BODY {
+	TEXT-ALIGN: center
+}
+</style>
+
+<meta content="MSHTML 6.00.2800.1400" name="GENERATOR"><script src="b5m.js" id="b5mmain" type="text/javascript"></script>	
+</head>
+
+<body>
+<div id="primarycontent">
+<center><h1>COCO-FUNIT: Few-Shot Unsupervised Image Translation <br> with a Content Conditioned Style Encoder</h1></center>
+<center><h2>
+	<a href="http://cs-people.bu.edu/keisaito/">Kuniaki Saito</a><sup>1, 2</sup>&nbsp;&nbsp;&nbsp;
+	<a href="http://ai.bu.edu/ksaenko.html">Kate Saenko</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
+	<a href="http://mingyuliu.net/">Ming-Yu Liu</a><sup>2</sup>&nbsp;&nbsp;&nbsp;
+	</h2>
+
+	<center><h2>
+		<a>1. Boston University</a>&nbsp;&nbsp;&nbsp;
+		<a href="https://www.nvidia.com/en-us/">2. NVIDIA</a>&nbsp;&nbsp;&nbsp;
+	</h2></center>
+<center><h2>in ECCV 2020 (Spotlight) </h2></center>
+<center><h2><strong><a href="paper.pdf">Paper</a> | <a href="https://github.com/nvlabs/imaginaire">Code </a> | <a href="https://youtu.be/Ewfx2Um75aw"> Demo Video </a> | <a href="https://youtu.be/btnDfqcedrk"> 10-min Video </a></strong> </h2></center>
+<center>
+<img src="images/teaser_new.mov.gif" width="90%"> </a></center>
+
+<br>
+<h2 align="center">Abstract</h2>
+
+<div style="font-size:14px"><p align="justify">Unsupervised image-to-image translation intends to learn a mapping of an image in a given domain to an analogous image in a different domain, without explicit supervision of the mapping. Few-shot unsupervised image-to-image translation further attempts to generalize the model to an unseen domain by leveraging example images of the unseen domain provided at inference time. While remarkably successful, existing few-shot image-to-image translation models find it difficult to preserve the structure of the input image while emulating the appearance of the unseen domain, which we refer to as the <b>content loss</b> problem. This is particularly severe when the poses of the objects in the input and example images are very different. To address the issue, we propose a new few-shot image translation model, which computes the style embedding of the example images conditioned on the input image and a new architecture design called the universal style bias. Through extensive experimental validations with comparison to the state-of-the-art, our model shows effectiveness in addressing the content loss problem.</p></div>
+
+
+<a href=""><img style="float: left; padding: 10px; PADDING-RIGHT: 30px;" alt="paper thumbnail" src="images/paper_thumbnail.png" width=170></a>
+
+
+
+<h2>Paper</h2>
+<p><a href="https://arxiv.org/pdf/2007.07431.pdf">arxiv</a>,  2020. </p>
+
+
+
+<h2>Citation</h2>
+<p>Kuniaki Saito, Kate Saenko, Ming-Yu Liu.<br>"COCO-FUNIT: Few-Shot Unsupervised Image Translation with a Content Conditioned Style Encoder", in ECCV, 2020.
+<a href="COCOFUNIT.txt">Bibtex</a>
+
+</p>
+
+
+<h2>Code </h2> <p><a href=''> Coming Soon</a></p>
+
+<br>
+
+
+
+<table border="0" cellspacing="0" cellpadding="10" width="70%">
+	<tr>
+	<td align="center" valign="middle" width="100%" class="full">
+		<h2>  Summary Video </h2>
+		<!-- <p><video width="100%" height="300px" src="images/video.mp4" controls></video></p> -->
+	<iframe width="1000" height="660" src="https://www.youtube.com/embed/X3EB8T8zdKw" allowfullscreen>
+	</iframe>		
+	</td>
+
+
+	</tr>
+</table>
+
+<br>
+<h1 align='center'> Few shot unsupervised image-to-image translation</h1>
+<center><img src="images/overview.jpg" width="1000"></center>
+<p align="justify"> Generating images in unseen domain is a challenging problem.
+		To solve the task, few-shot unsupervised image-to-image translation framework
+		(<a href="https://arxiv.org/pdf/1905.01723.pdf"><span style="font-weight:normal">Liu et. al.</span></a>) leveraged example-guided episodic training and
+		generated realistic images from unseen domains given a few reference images. </p>
+<h1 align='center'> Content Loss Problem</h1>
+	<center> <img src="images/motivation_v2.jpg" width="800" /></center> <br>
+
+	<p align="justify">
+		However, their framework is limited in one aspect. The few-shot translation framework frequently generates unsatisfactory translation outputs
+		when the model is applied to objects with diverse appearance, such as animals with very different body poses.
+		The domain invariant content that is supposed to remain unchanged disappears after translation, as shown above.
+		We will call this issue the <b>content loss</b> problem.
+	</p>
+<h1 align='center'> Content Conditioned Style Encoder </h1>
+	<center> <img src="images/model.jpg" width="800" /></center> <br>
+
+	<p align="justify">
+		We propose a novel network architecture to solve the content loss problem. We design a style encoder called the <b> content-conditioned style encoder </b>
+		to hinder the transmission of task-irrelevant appearance information to the image translation process. In contrast to the existing style encoders,
+		our style code is computed by conditioning on the input content image. We use a new architecture design to limit the variance of the style code.
+	</p>
+
+
+<br>
+<h1 align='center'> Few-shot Image-to-Image Translation Examples</h1>
+	<p align="justify">We show results on Carnivorous, bird, and mammal translation. For each example, </p>
+<div align="left">
+  <li><b>Style1</b> and <b>Style2</b> are the few-shot example images of the target class made available during testing,</li>
+  <li><b>Content</b> is the input image of the source class, and</li>
+  <li><b>Ours</b> is the translation from the source class to the target class.</li>
+<div/>
+	<br>
+<center><img src="images/2shot_dogs.jpg" width="1000"></center>
+	<br>
+	<center><img src="images/2shot_bird.jpg" width="1000"></center>	<br>
+<br>
+<center><img src="images/2shot_mammal.png" width="1000"></center>
+	<br>
+	<h2 align='center'> Comparison with FUNIT</h2>
+	<p align="justify">We show comparison with FUNIT on animal-face translation.
+		Our architecture achieves photo-realistic translation. </p>
+<center><img src="images/animal_face.jpg" width="1000"></center>
+	<br>
+<h1 align='center'> Style Blending Examples</h1>
+<p align="justify">We show results on blending style of two images. S1 and S2 are style images and we take a linear interporation of their style embeddings.</p>
+	<center><img src="images/style_mix.jpg" width="1000"></center>
+
+
+</body></html
+>
