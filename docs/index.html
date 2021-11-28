@@ -10,20 +10,13 @@
   gtag('config', 'UA-140332927-1');
 </script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-174254593-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-174254593-2');
-</script>
-<title>COCO-FUNIT Project Page</title>
+<title>LDET Project Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 
-<meta property="og:image" content="images/teaser_new.mov.gif"/>
+<meta property="og:image" content="images/ldet_teaser.gif"/>
 
-<meta property="og:title" content="COCO-FUNIT: Few-Shot Unsupervised Image Translation with a Content Conditioned Style Encoder"/>
+<meta property="og:title" content="Learning to Detect Every Thing in an Open World"/>
 
 <script src="lib.js" type="text/javascript"></script>
 <script src="popup.js" type="text/javascript"></script>
@@ -44,31 +37,35 @@ BODY {
 }
 </style>
 
-<meta content="MSHTML 6.00.2800.1400" name="GENERATOR"><script src="b5m.js" id="b5mmain" type="text/javascript"></script>	
+<meta content="MSHTML 6.00.2800.1400" name="GENERATOR"><script src="b5m.js" id="b5mmain" type="text/javascript"></script>
 </head>
 
 <body>
 <div id="primarycontent">
-<center><h1>COCO-FUNIT: Few-Shot Unsupervised Image Translation <br> with a Content Conditioned Style Encoder</h1></center>
+<center><h1>Learning to Detect Every Thing in an Open World </h1></center>
 <center><h2>
-	<a href="http://cs-people.bu.edu/keisaito/">Kuniaki Saito</a><sup>1, 2</sup>&nbsp;&nbsp;&nbsp;
-	<a href="http://ai.bu.edu/ksaenko.html">Kate Saenko</a><sup>1</sup>&nbsp;&nbsp;&nbsp;
-	<a href="http://mingyuliu.net/">Ming-Yu Liu</a><sup>2</sup>&nbsp;&nbsp;&nbsp;
+	<a href="https://cs-people.bu.edu/keisaito/index.html">Kuniaki Saito</a><sup>1 </sup>&nbsp;&nbsp;&nbsp;
+  <a href="http://cs-people.bu.edu/pinghu/homepage.html">Ping Hu</a><sup>1 </sup>&nbsp;&nbsp;&nbsp;
+  <a href="https://people.eecs.berkeley.edu/~trevor/">Trevor Darrell</a><sup>2 </sup>&nbsp;&nbsp;&nbsp;
+	<a href="http://ai.bu.edu/ksaenko.html">Kate Saenko</a><sup>1, 3</sup>&nbsp;&nbsp;&nbsp;
 	</h2>
 
 	<center><h2>
-		<a>1. Boston University</a>&nbsp;&nbsp;&nbsp;
-		<a href="https://www.nvidia.com/en-us/">2. NVIDIA</a>&nbsp;&nbsp;&nbsp;
+		<a> 1. Boston University </a> &nbsp;&nbsp;&nbsp;
+    <a> 2. University of California, Berkeley  </a> &nbsp;&nbsp;&nbsp;
+		<a> 3. MIT-IBM Watson AI Lab </a> &nbsp;&nbsp;&nbsp;
 	</h2></center>
-<center><h2>in ECCV 2020 (Spotlight) </h2></center>
-<center><h2><strong><a href="paper.pdf">Paper</a> | <a href="https://github.com/nvlabs/imaginaire">Code </a> | <a href="https://youtu.be/Ewfx2Um75aw"> Demo Video </a> | <a href="https://youtu.be/btnDfqcedrk"> 10-min Video </a></strong> </h2></center>
+
+<center><h2><strong><a href="paper.pdf">Paper</a>  </h2> </a></strong> </center>
 <center>
-<img src="images/teaser_new.mov.gif" width="90%"> </a></center>
+
+<img src="images/ldet_teaser.gif" width="85%"> </a></center>
 
 <br>
-<h2 align="center">Abstract</h2>
+<h1 align="center">Abstract</h1>
 
-<div style="font-size:14px"><p align="justify">Unsupervised image-to-image translation intends to learn a mapping of an image in a given domain to an analogous image in a different domain, without explicit supervision of the mapping. Few-shot unsupervised image-to-image translation further attempts to generalize the model to an unseen domain by leveraging example images of the unseen domain provided at inference time. While remarkably successful, existing few-shot image-to-image translation models find it difficult to preserve the structure of the input image while emulating the appearance of the unseen domain, which we refer to as the <b>content loss</b> problem. This is particularly severe when the poses of the objects in the input and example images are very different. To address the issue, we propose a new few-shot image translation model, which computes the style embedding of the example images conditioned on the input image and a new architecture design called the universal style bias. Through extensive experimental validations with comparison to the state-of-the-art, our model shows effectiveness in addressing the content loss problem.</p></div>
+<div style="font-size:14px"><p align="justify"> Many open-world applications require the detection of novel objects, yet state-of-the-art object detection and instance segmentation networks do not excel at this task. The key issue lies in their assumption that regions without any annotations should be suppressed as negatives, which teaches the model to treat the unannotated objects as background. To address this issue, we propose a simple yet surprisingly powerful data augmentation and training scheme we call <b>Learning to Detect Every Thing (LDET)</b>. To avoid suppressing hidden objects (background objects that are visible but unlabeled), we paste annotated objects on a background image sampled from a small region of the original image. Since training solely on such synthetically-augmented images suffers from domain shift, we decouple the training into two parts: 1) training the region classification and regression head on augmented images, and 2)~training the mask heads on original images. In this way, a model does not learn to classify hidden objects as background while generalizing well to real images.
+ LDET leads to significant improvements on many datasets in the open-world instance segmentation task, outperforming baselines on cross-category generalization on COCO, as well as cross-dataset evaluation on UVO and Cityscapes. </p></div>
 
 
 <a href=""><img style="float: left; padding: 10px; PADDING-RIGHT: 30px;" alt="paper thumbnail" src="images/paper_thumbnail.png" width=170></a>
@@ -76,85 +73,67 @@ BODY {
 
 
 <h2>Paper</h2>
-<p><a href="https://arxiv.org/pdf/2007.07431.pdf">arxiv</a>,  2020. </p>
+<p><a href="">arxiv</a>,  2021. </p>
 
 
 
 <h2>Citation</h2>
-<p>Kuniaki Saito, Kate Saenko, Ming-Yu Liu.<br>"COCO-FUNIT: Few-Shot Unsupervised Image Translation with a Content Conditioned Style Encoder", in ECCV, 2020.
-<a href="COCOFUNIT.txt">Bibtex</a>
+<p>Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko.<br>"Learning to Detect Every Thing in an Open World
+".
+<a href="">Bibtex</a>
 
 </p>
 
 
-<h2>Code </h2> <p><a href=''> Coming Soon</a></p>
+<!-- <h2>Code </h2> <p><a href=''> Coming Soon</a></p> -->
 
 <br>
 
 
-
-<table border="0" cellspacing="0" cellpadding="10" width="70%">
-	<tr>
-	<td align="center" valign="middle" width="100%" class="full">
-		<h2>  Summary Video </h2>
-		<!-- <p><video width="100%" height="300px" src="images/video.mp4" controls></video></p> -->
-	<iframe width="1000" height="660" src="https://www.youtube.com/embed/X3EB8T8zdKw" allowfullscreen>
-	</iframe>		
-	</td>
-
-
-	</tr>
-</table>
+<br>
 
 <br>
-<h1 align='center'> Few shot unsupervised image-to-image translation</h1>
-<center><img src="images/overview.jpg" width="1000"></center>
-<p align="justify"> Generating images in unseen domain is a challenging problem.
-		To solve the task, few-shot unsupervised image-to-image translation framework
-		(<a href="https://arxiv.org/pdf/1905.01723.pdf"><span style="font-weight:normal">Liu et. al.</span></a>) leveraged example-guided episodic training and
-		generated realistic images from unseen domains given a few reference images. </p>
-<h1 align='center'> Content Loss Problem</h1>
-	<center> <img src="images/motivation_v2.jpg" width="800" /></center> <br>
+<h1 align='center'> Open World Instance Segmentation</h1>
+<center><img class="img-responsive img-hover" src="images/detected_results_uvo.webp" width="1000"></center>
+<p align="justify"> State-of-the-art object detectors are designed to detect objects, which are given annotations in dataset, while they do not excel at detecting novel objects. However, many applications require to localize objects though it may not be necessary to identify their categories. In the open world instance segmentation, the model needs to localize novel objects in the scene. </p>
+
+<h1 align='center'> Challenge in Open World Instance Segmentation</h1>
+	<center> <img src="images/motivate_hidden.webp" width="900" /></center> <br>
 
 	<p align="justify">
-		However, their framework is limited in one aspect. The few-shot translation framework frequently generates unsatisfactory translation outputs
-		when the model is applied to objects with diverse appearance, such as animals with very different body poses.
-		The domain invariant content that is supposed to remain unchanged disappears after translation, as shown above.
-		We will call this issue the <b>content loss</b> problem.
+		What limits the ability of detectors to locate novel objects? First, most datasets do not annotate all objects in a scene. The above is the images from COCO. The colored boxes are annotated while other regions are not. Note that there are many unlabeled objects (marked with white dashed boxes) in the scene. Then, the detectors are trained to suppress the unlabeled objects as "background". This discourages the detectors to detect novel objects.
 	</p>
-<h1 align='center'> Content Conditioned Style Encoder </h1>
-	<center> <img src="images/model.jpg" width="800" /></center> <br>
+<h1 align='center'> Data Augmentation: Background Erasing </h1>
+	<center> <img src="images/pipeline_synthesis.webp" width="700" /></center> <br>
 
 	<p align="justify">
-		We propose a novel network architecture to solve the content loss problem. We design a style encoder called the <b> content-conditioned style encoder </b>
-		to hinder the transmission of task-irrelevant appearance information to the image translation process. In contrast to the existing style encoders,
-		our style code is computed by conditioning on the input content image. We use a new architecture design to limit the variance of the style code.
+		First, to avoid suppressing unlabeled objects as background, we propose to erase them by using the mask of foreground objects. We paste foreground objects on a background image and train a detector on the synthesized image. Since we need a background image, which does not contain foreground objects, we propose to create it by cropping a patch from a small region of the input image. But, the synthesized images look totally different from real images, which makes the trained detector work poor on real images.
 	</p>
 
 
 <br>
-<h1 align='center'> Few-shot Image-to-Image Translation Examples</h1>
-	<p align="justify">We show results on Carnivorous, bird, and mammal translation. For each example, </p>
-<div align="left">
-  <li><b>Style1</b> and <b>Style2</b> are the few-shot example images of the target class made available during testing,</li>
-  <li><b>Content</b> is the input image of the source class, and</li>
-  <li><b>Ours</b> is the translation from the source class to the target class.</li>
-<div/>
-	<br>
-<center><img src="images/2shot_dogs.jpg" width="1000"></center>
-	<br>
-	<center><img src="images/2shot_bird.jpg" width="1000"></center>	<br>
-<br>
-<center><img src="images/2shot_mammal.png" width="1000"></center>
-	<br>
-	<h2 align='center'> Comparison with FUNIT</h2>
-	<p align="justify">We show comparison with FUNIT on animal-face translation.
-		Our architecture achieves photo-realistic translation. </p>
-<center><img src="images/animal_face.jpg" width="1000"></center>
-	<br>
-<h1 align='center'> Style Blending Examples</h1>
-<p align="justify">We show results on blending style of two images. S1 and S2 are style images and we take a linear interporation of their style embeddings.</p>
-	<center><img src="images/style_mix.jpg" width="1000"></center>
+<h1 align='center'> Decoupled Training</h1>
+<center> <img src="images/training_figure.webp" width="500" /></center> <br>
+<p align="justify">
+  To handle the domain-shift between synthesized and real images, we propose to decouple the training into two parts: 1) training detector losses on synthesized images, 2) training mask loss on real images. In this way, the detector will not suppress unlabeled objects as background while it will generalize well to real images thanks to the mask loss.
+</p>
+
+<h1 align='center'> Experiments</h1>
+<center> <img src="images/numerical_results.webp" width="1000" /></center> <br>
+<p align="justify">
+  This is the result of models trained on VOC categories of COCO (VOC-COCO) or whole COCO, and tested on <a href="https://arxiv.org/pdf/2104.04691.pdf">UVO</a>. LDET improves on Mask RCNN with a large margin in all metrics. Note that LDET trained on VOC-COCO is comparable to or better than Mask RCNN trained on COCO in AR.
+</p>
+
+<h1 align='center'>Visualization</h1>
+<center> <img src="images/detected_results_coco.webp" width="1000" /></center> <br>
+<p align="justify">
+Models trained on VOC-COCO are tested on COCO validation images. LDET detects novel objects well e.g., <i>giraffe, trash box, pen, kite, and floats</i>.
+</p>
+<h1 align='center'>Objectness Visualization</h1>
+<center> <img src="images/objectness.webp" width="800" /></center> <br>
+<p align="justify">
+Visualization of objectness score from region proposal network. Note that LDET predicts the score well while baseline suppresses the objectness of many objects.
+</p>
 
 
 </body></html
