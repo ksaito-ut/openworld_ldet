@@ -1,5 +1,8 @@
 # Learning to Detect Every Thing in an Open World (LDET)
 
+<center>
+<img src="docs/images/ldet_teaser.gif" width="90%"> </a></center>
+
 ## Installation
 
 
