@@ -3,10 +3,14 @@
 <center>
 <img src="docs/images/ldet_teaser.gif" width="90%"> </a></center>
 
-**[[Paper]](https://arxiv.org/pdf/2112.01698.pdf) | [[Project Page]](https://ksaito-ut.github.io/openworld_ldet/) | [Demo Video](https://cs-people.bu.edu/keisaito/videos/video_let/video2_concat.mp4)**
+**[[Paper]](https://arxiv.org/pdf/2112.01698.pdf) | [[Project Page]](https://ksaito-ut.github.io/openworld_ldet/) | [[Demo Video]](https://cs-people.bu.edu/keisaito/videos/video_let/video2_concat.mp4)**
+
+If you use this code for your research, please cite:
+
+Learning to Detect Every Thing in an Open World.
+Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. [[Bibtex]](docs/bib.txt)
 
 ## Installation
-
 
 **Requirements**
 * Linux with Python >= 3.6

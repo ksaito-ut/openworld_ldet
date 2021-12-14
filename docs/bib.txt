@@ -1,0 +1,8 @@
+@misc{saito2021learning,
+      title={Learning to Detect Every Thing in an Open World},
+      author={Kuniaki Saito and Ping Hu and Trevor Darrell and Kate Saenko},
+      year={2021},
+      eprint={2112.01698},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
