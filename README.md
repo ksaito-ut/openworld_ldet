@@ -8,9 +8,9 @@
 
 If you use this code for your research, please cite:
 
-Learning to Detect Every Thing in an Open World.
+<em>Learning to Detect Every Thing in an Open World.
 
-Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. [[Bibtex]](https://github.com/ksaito-ut/openworld_ldet/docs/bib.txt)
+Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. </em> [[Bibtex]](https://github.com/ksaito-ut/openworld_ldet/docs/bib.txt)
 
 ## Installation
 
@@ -56,12 +56,14 @@ python3 -m pip install -r requirements.txt
   - **run_train.sh**: training script
 
 ## Data Preparation
-We provide evaluation on COCO in this repository:
+We provide evaluation on COCO, UVO, and Mapillary (v2.0) in this repository:
 - [COCO](http://cocodataset.org/)
+Trained on train split, evaluated on validation split. Download the COCO dataset following the instruction of detectron2.
 
-Note that we will release dataset description for UVO, Cityscape, and Mapillary upon acceptance.
-But, we provide the configuration files for reference.
-Please follow the standard data preparation for detectron2.
+- [UVO](https://drive.google.com/drive/folders/1fOhEdHqrp_6D_tBsrR9hazDLYV2Sw1XC)
+We downloaded uvo_videos_sparse.zip and evaluated on the videos. 
+
+- [Mapillary](https://www.mapillary.com/dataset/vistas)
 
 
 ## Getting Started
@@ -70,10 +72,10 @@ Please follow the standard data preparation for detectron2.
 
 To train a model, run
 ```angular2html
-sh run_train.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml save_dir
+sh tools/run_train.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml save_dir
 ```
 
 To evaluate the trained models, run
 ```angular2html
-sh run_test.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml weight_to_eval
+sh tools/run_test.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml weight_to_eval
 ```
