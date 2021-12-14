@@ -1,13 +1,15 @@
-# [Learning to Detect Every Thing in an Open World (LDET)](https://arxiv.org/pdf/2112.01698.pdf)
+## [Learning to Detect Every Thing in an Open World](https://arxiv.org/pdf/2112.01698.pdf)
 
-<center>
-<img src="docs/images/ldet_teaser.gif" width="70%"> </a></center>
+<p align="center">
+<img src="docs/images/ldet_teaser.gif" width="70%">
+</p>
 
 **[[Paper]](https://arxiv.org/pdf/2112.01698.pdf) | [[Project Page]](https://ksaito-ut.github.io/openworld_ldet/) | [[Demo Video]](https://cs-people.bu.edu/keisaito/videos/video_let/video2_concat.mp4)**
 
 If you use this code for your research, please cite:
 
 Learning to Detect Every Thing in an Open World.
+
 Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. [[Bibtex]](https://github.com/ksaito-ut/openworld_ldet/docs/bib.txt)
 
 ## Installation
@@ -25,7 +27,7 @@ We used `conda` to create a new environment.
 conda create --name ldet
 conda activate ldet
 ```
-* Install PyTorch. You can choose the PyTorch and CUDA version according to your machine. Just make sure your PyTorch version matches the prebuilt Detectron2 version (next step). Example for PyTorch v1.6.0:
+* Install PyTorch. You can choose the PyTorch and CUDA version according to your machine. Just make sure your PyTorch version matches the prebuilt Detectron2 version (next step). Example for PyTorch v1.10.0:
 ```angular2html
 conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
 ```
