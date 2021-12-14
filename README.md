@@ -62,7 +62,7 @@ Trained on train split, evaluated on validation split. Download the COCO dataset
 
 - [UVO](https://sites.google.com/view/unidentified-video-object/dataset?authuser=0).
 We downloaded [uvo_videos_sparse.zip](https://drive.google.com/drive/folders/1fOhEdHqrp_6D_tBsrR9hazDLYV2Sw1XC) and evaluated on the videos. Follow their instructions to split videos into frames.
-The split used for evaluation is available in [Dropbox Link](https://drive.google.com/file/d/1bn4oIdV53xVTPfp9BG9dplCcpZ6Yz3hR/view?usp=sharing)
+The json file split used for evaluation is available in [Dropbox Link](https://drive.google.com/file/d/1bn4oIdV53xVTPfp9BG9dplCcpZ6Yz3hR/view?usp=sharing)
 
 E.g., the data structure of UVO dataset is as follows:
 ```angular2html
@@ -74,9 +74,35 @@ uvo_frames_sparse/video1/1.png
 uvo_frames_sparse/video2/0.png
 .
 ```
-- [Cityscapes](https://www.cityscapes-dataset.com/login/) Follow [detectron2's instruction](https://github.com/facebookresearch/detectron2/tree/main/datasets).
+- [Cityscapes](https://www.cityscapes-dataset.com/login/). Follow [detectron2's instruction](https://github.com/facebookresearch/detectron2/tree/main/datasets).
 
-- [Mapillary](https://www.mapillary.com/dataset/vistas)
+- [Mapillary](https://www.mapillary.com/dataset/vistas).
+
+
+## Trained models
+<table><tbody>
+<!-- START TABLE -->
+<!-- TABLE HEADER -->
+<th valign="center">Method</th>
+<th valign="bottom">Training Dataset</th>
+<th valign="bottom">Evaluation Dataset</th>
+<th valign="bottom">box<br/>AP</th>
+<th valign="bottom">box<br/>AR</th>
+<th valign="bottom">seg<br/>AP</th>
+<th valign="bottom">seg<br/>AR</th>
+<th valign="center">Link</th>
+
+<!-- TABLE BODY -->
+<!-- ROW: faster_rcnn_R_50_C4_1x -->
+ <tr><td align="left"><a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">LDET</a></td>
+<td align="center">VOC-COCO</td>
+<td align="center">Non-VOC-COCO</td>
+<td align="center">10.2</td>
+<td align="center">34.8</td>
+<td align="center">9.0</td>
+<td align="center">31.0</td>
+<td align="center"><a href="https://drive.google.com/file/d/1I00ZZHuJxvo0dsrsv-V9e8lNS1kknUFv/view?usp=sharing">model</a></td>
+</tr>
 
 
 ## Getting Started
@@ -87,6 +113,7 @@ To train a model, run
 ```angular2html
 sh tools/run_train.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml save_dir
 ```
+Note that the training will produce two directories, i.e., one for normal models and the other for exponential moving averaged models. We used the latter for evaluation.
 
 To evaluate the trained models, run
 ```angular2html

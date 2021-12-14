@@ -54,6 +54,7 @@ class CopyPasteMapper:
         recompute_boxes: bool = False,
         back_ratio: int = 8,
         sample_texture: bool=False,
+        if_aug: bool=True,
     ):
         """
         NOTE: this interface is experimental.
@@ -88,6 +89,7 @@ class CopyPasteMapper:
         self.recompute_boxes        = recompute_boxes
         self.back_ratio = back_ratio
         self.sample_texture = sample_texture
+        self.if_aug = if_aug
         ## path to texture images if available.
         if sample_texture:
             self.path_to_back = "path_to_DTD"
@@ -263,8 +265,10 @@ class CopyPasteMapper:
 
         if "annotations" in dataset_dict:
             self._transform_annotations(dataset_dict, transforms, image_shape)
-
-        return self.copypaste(dataset_dict)
+        if self.if_aug:
+            return self.copypaste(dataset_dict)
+        else:
+            return dataset_dict
 
 def random_region(image, width=32, height=32):
     ## randomly crop region with size (width, height), return after resizing.
