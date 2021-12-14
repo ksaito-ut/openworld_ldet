@@ -1,7 +1,9 @@
-# Learning to Detect Every Thing in an Open World (LDET)
+# [Learning to Detect Every Thing in an Open World (LDET)](https://arxiv.org/pdf/2112.01698.pdf)
 
 <center>
-<img src="docs/images/ldet_teaser.gif" width="100%"> </a></center>
+<img src="docs/images/ldet_teaser.gif" width="90%"> </a></center>
+
+[Paper](https://arxiv.org/pdf/2112.01698.pdf) [Project Page](https://ksaito-ut.github.io/openworld_ldet/)
 
 ## Installation
 
