@@ -1,0 +1,26 @@
+_BASE_: "../Base-RCNN-FPN.yaml"
+MODEL:
+  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  MASK_ON: True
+  RESNETS:
+    DEPTH: 50
+  ROI_HEADS:
+    SCORE_THRESH_TEST: 0.05
+    NMS_THRESH_TEST: 0.7
+  RPN:
+    PRE_NMS_TOPK_TEST: 2000
+    POST_NMS_TOPK_TEST: 2000
+    NMS_THRESH: 0.7
+DATASETS:
+  TRAIN: ("coco_2017_train_invoc",)
+  TEST: ("coco_2017_val_out_voc" ,)
+  PRECOMPUTED_PROPOSAL_TOPK_TEST: 1500
+  BACK_RATIO: 8
+SOLVER:
+  CHECKPOINT_PERIOD: 10000
+  IMS_PER_BATCH: 4
+TEST:
+  DETECTIONS_PER_IMAGE: 100
+DATALOADER:
+  # proposals are part of the dataset_dicts, and take a lot of RAM
+  NUM_WORKERS: 0
