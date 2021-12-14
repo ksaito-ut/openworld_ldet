@@ -3,7 +3,7 @@
 <center>
 <img src="docs/images/ldet_teaser.gif" width="90%"> </a></center>
 
-[Paper](https://arxiv.org/pdf/2112.01698.pdf) [Project Page](https://ksaito-ut.github.io/openworld_ldet/)
+**[[Paper]](https://arxiv.org/pdf/2112.01698.pdf) | [[Project Page]](https://ksaito-ut.github.io/openworld_ldet/) | [Demo Video](https://cs-people.bu.edu/keisaito/videos/video_let/video2_concat.mp4)**
 
 ## Installation
 
