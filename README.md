@@ -57,11 +57,24 @@ python3 -m pip install -r requirements.txt
 
 ## Data Preparation
 We provide evaluation on COCO, UVO, and Mapillary (v2.0) in this repository:
-- [COCO](http://cocodataset.org/)
+- [COCO](http://cocodataset.org/).
 Trained on train split, evaluated on validation split. Download the COCO dataset following the instruction of detectron2.
 
-- [UVO](https://drive.google.com/drive/folders/1fOhEdHqrp_6D_tBsrR9hazDLYV2Sw1XC)
-We downloaded uvo_videos_sparse.zip and evaluated on the videos. 
+- [UVO](https://sites.google.com/view/unidentified-video-object/dataset?authuser=0).
+We downloaded [uvo_videos_sparse.zip](https://drive.google.com/drive/folders/1fOhEdHqrp_6D_tBsrR9hazDLYV2Sw1XC) and evaluated on the videos. Follow their instructions to split videos into frames.
+The split used for evaluation is available in [Dropbox Link](https://drive.google.com/file/d/1bn4oIdV53xVTPfp9BG9dplCcpZ6Yz3hR/view?usp=sharing)
+
+E.g., the data structure of UVO dataset is as follows:
+```angular2html
+uvo_frames_sparse/video1/0.png
+uvo_frames_sparse/video1/1.png
+.
+.
+.
+uvo_frames_sparse/video2/0.png
+.
+```
+- [Cityscapes](https://www.cityscapes-dataset.com/login/) Follow [detectron2's instruction](https://github.com/facebookresearch/detectron2/tree/main/datasets).
 
 - [Mapillary](https://www.mapillary.com/dataset/vistas)
 
