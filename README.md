@@ -97,13 +97,13 @@ uvo_frames_sparse/video2/0.png
  <tr><td align="center"><a href="tools/trainer_plain.py">Plain</a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC-COCO</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"><a href="https://drive.google.com/file/d/1Iszjt6eLXcNLqGNAlxl-SyQVbc_PEHt1/view?usp=sharing">model </a> &nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
+<td align="center">8.9</td>
+<td align="center">20.9</td>
+<td align="center">7.2</td>
+<td align="center">17.7</td>
+<td align="center"><a href="https://drive.google.com/file/d/1Iszjt6eLXcNLqGNAlxl-SyQVbc_PEHt1/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
 <!-- ROW: Plain -->
-<tr><td align="center"><a href="tools/trainer_ldet.py">Plain</a></td>
+<tr><td align="center"><a href="tools/trainer_ldet.py">LDET</a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC-COCO</td>
 <td align="center">10.2</td>
