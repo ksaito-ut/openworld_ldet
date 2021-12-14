@@ -8,7 +8,7 @@
 If you use this code for your research, please cite:
 
 Learning to Detect Every Thing in an Open World.
-Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. [[Bibtex]](docs/bib.txt)
+Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. [[Bibtex]](https://github.com/ksaito-ut/openworld_ldet/docs/bib.txt)
 
 ## Installation
 
