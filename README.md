@@ -93,15 +93,26 @@ uvo_frames_sparse/video2/0.png
 <th valign="center">Link</th>
 
 <!-- TABLE BODY -->
-<!-- ROW: faster_rcnn_R_50_C4_1x -->
- <tr><td align="left"><a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">LDET</a></td>
+<!-- ROW: LDET -->
+ <tr><td align="center"><a href="tools/trainer_plain.py">Plain</a></td>
+<td align="center">VOC-COCO</td>
+<td align="center">Non-VOC-COCO</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><a href="https://drive.google.com/file/d/1Iszjt6eLXcNLqGNAlxl-SyQVbc_PEHt1/view?usp=sharing">model </a> &nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
+<!-- ROW: Plain -->
+<tr><td align="center"><a href="tools/trainer_ldet.py">Plain</a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC-COCO</td>
 <td align="center">10.2</td>
 <td align="center">34.8</td>
 <td align="center">9.0</td>
 <td align="center">31.0</td>
-<td align="center"><a href="https://drive.google.com/file/d/1I00ZZHuJxvo0dsrsv-V9e8lNS1kknUFv/view?usp=sharing">model</a></td>
+<td align="center"><a href="https://drive.google.com/file/d/1I00ZZHuJxvo0dsrsv-V9e8lNS1kknUFv/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a>
+</td>
+
 </tr>
 
 
