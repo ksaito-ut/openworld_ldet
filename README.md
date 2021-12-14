@@ -112,8 +112,19 @@ uvo_frames_sparse/video2/0.png
 <td align="center">31.0</td>
 <td align="center"><a href="https://drive.google.com/file/d/1I00ZZHuJxvo0dsrsv-V9e8lNS1kknUFv/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
-
 </tr>
+
+<tr><td align="center"><a href="tools/trainer_ldet.py">LDET</a></td>
+<td align="center">COCO</td>
+<td align="center">UVO</td>
+<td align="center">26.1</td>
+<td align="center">53.1</td>
+<td align="center">21.1</td>
+<td align="center">43.0</td>
+<td align="center"><a href="https://drive.google.com/file/d/1A3CXQig95PR5sMA5IjhiqqxCT4lSQRi1/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/COCO/mask_rcnn_R_50_FPN.yaml">config</a>
+</td>
+</tr>
+</table>
 
 
 ## Getting Started
