@@ -150,10 +150,9 @@ Update the line in [builtin.py](https://github.com/ksaito-ut/openworld_ldet/blob
 </table>
 
 
-## Getting Started
+## Training & Evaluation
 
-### Training & Evaluation in Command Line (COCO)
-
+### Training
 To train a model, run
 ```angular2html
 ## Training on VOC-COCO
@@ -166,6 +165,7 @@ sh tools/run_train.sh configs/Cityscapes/mask_rcnn_R_50_FPN.yaml save_dir
 ```
 Note that the training will produce two directories, i.e., one for normal models and the other for exponential moving averaged models. We used the latter for evaluation.
 
+### Evaluation
 To evaluate the trained models, run
 ```angular2html
 ## Test on Non-VOC-COCO
