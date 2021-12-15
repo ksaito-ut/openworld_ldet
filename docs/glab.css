@@ -4,12 +4,14 @@ TABLE {
 
 BODY {
 	FONT-SIZE: small; COLOR: black; FONT-FAMILY: Georgia, "New Century Schoolbook", Times, serif; BACKGROUND-COLOR: white
+	margin-left: 80px;
+	margin-right: 80px;
 }
 IMG {
 	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
 }
 H1 {
-	FONT-WEIGHT: normal
+	FONT-WEIGHT: bolder
 }
 H2 {
 	MARGIN-TOP: 12px; FONT-WEIGHT: normal; MARGIN-BOTTOM: 0px
@@ -90,7 +92,7 @@ BLOCKQUOTE P {
 	PADDING-LEFT: 10px; MARGIN-LEFT: 0px; LIST-STYLE-TYPE: none
 }
 DIV.abstract {
-	CLEAR: both; PADDING-RIGHT: 0px; BORDER-TOP: #999999 1px solid; MARGIN-TOP: 25px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+	CLEAR: both; PADDING-RIGHT: 0px; BORDER-TOP: #999999 1px solid; MARGIN-TOP: 15px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 10px
 }
 DIV.abstract PRE {
 	FONT-SIZE: xx-small; MARGIN: 0px

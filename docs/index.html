@@ -63,9 +63,10 @@ BODY {
 <img src="images/ldet_teaser.gif" width="80%"> </a></center>
 
 <br>
-<h1 align="center">Abstract</h1>
 
-<div style="font-size:14px"><p align="justify"> Many open-world applications require the detection of novel objects, yet state-of-the-art object detection and instance segmentation networks do not excel at this task. The key issue lies in their assumption that regions without any annotations should be suppressed as negatives, which teaches the model to treat the unannotated objects as background. To address this issue, we propose a simple yet surprisingly powerful data augmentation and training scheme we call <b>Learning to Detect Every Thing (LDET)</b>. To avoid suppressing hidden objects (background objects that are visible but unlabeled), we paste annotated objects on a background image sampled from a small region of the original image. Since training solely on such synthetically-augmented images suffers from domain shift, we decouple the training into two parts: 1) training the region classification and regression head on augmented images, and 2)~training the mask heads on original images. In this way, a model does not learn to classify hidden objects as background while generalizing well to real images.
+<div style="font-size:14px" class="abstract">
+  <h1 align="center">Abstract</h1>
+  <p align="justify"> Many open-world applications require the detection of novel objects, yet state-of-the-art object detection and instance segmentation networks do not excel at this task. The key issue lies in their assumption that regions without any annotations should be suppressed as negatives, which teaches the model to treat the unannotated objects as background. To address this issue, we propose a simple yet surprisingly powerful data augmentation and training scheme we call <b>Learning to Detect Every Thing (LDET)</b>. To avoid suppressing hidden objects (background objects that are visible but unlabeled), we paste annotated objects on a background image sampled from a small region of the original image. Since training solely on such synthetically-augmented images suffers from domain shift, we decouple the training into two parts: 1) training the region classification and regression head on augmented images, and 2)~training the mask heads on original images. In this way, a model does not learn to classify hidden objects as background while generalizing well to real images.
  LDET leads to significant improvements on many datasets in the open-world instance segmentation task, outperforming baselines on cross-category generalization on COCO, as well as cross-dataset evaluation on UVO and Cityscapes. </p></div>
 
 
@@ -94,9 +95,13 @@ BODY {
 <br>
 
 <br>
+<div style="font-size:14px" class="abstract">
 <h1 align='center'> Open World Instance Segmentation</h1>
 <center><img class="img-responsive img-hover" src="images/detected_results_uvo.webp" width="1000"></center>
 <p align="justify"> State-of-the-art object detectors are designed to detect objects, which are given annotations in dataset, while they do not excel at detecting novel objects. However, many applications require to localize objects though it may not be necessary to identify their categories. In the open world instance segmentation, the model needs to localize novel objects in the scene. </p>
+</div>
+
+<hr size="1px" width="100%" color="#999999">
 
 <h1 align='center'> Challenge in Open World Instance Segmentation</h1>
 	<center> <img src="images/motivate_hidden.webp" width="900" /></center> <br>
@@ -104,6 +109,9 @@ BODY {
 	<p align="justify">
 		What limits the ability of detectors to locate novel objects? First, most datasets do not annotate all objects in a scene. The above is the images from COCO. The colored boxes are annotated while other regions are not. Note that there are many unlabeled objects (marked with white dashed boxes) in the scene. Then, the detectors are trained to suppress the unlabeled objects as "background". This discourages the detectors to detect novel objects.
 	</p>
+
+<hr size="1px" width="100%" color="#999999">
+
 <h1 align='center'> Data Augmentation: Background Erasing </h1>
 	<center> <img src="images/pipeline_synthesis.webp" width="700" /></center> <br>
 
@@ -111,13 +119,14 @@ BODY {
 		First, to avoid suppressing unlabeled objects as background, we propose to erase them by using the mask of foreground objects. We paste foreground objects on a background image and train a detector on the synthesized image. Since we need a background image, which does not contain foreground objects, we propose to create it by cropping a patch from a small region of the input image. But, the synthesized images look totally different from real images, which makes the trained detector work poor on real images.
 	</p>
 
-
 <br>
 <h1 align='center'> Decoupled Training</h1>
 <center> <img src="images/training_figure.webp" width="500" /></center> <br>
 <p align="justify">
   To handle the domain-shift between synthesized and real images, we propose to decouple the training into two parts: 1) training detector losses on synthesized images, 2) training mask loss on real images. In this way, the detector will not suppress unlabeled objects as background while it will generalize well to real images thanks to the mask loss.
 </p>
+
+<hr size="1px" width="100%" color="#999999">
 
 <h1 align='center'> Experiments</h1>
 <center> <img src="images/numerical_results.webp" width="1000" /></center> <br>
@@ -135,7 +144,6 @@ Models trained on VOC-COCO are tested on COCO validation images. LDET detects no
 <p align="justify">
 Visualization of objectness score from region proposal network. Note that LDET predicts the score well while baseline suppresses the objectness of many objects.
 </p>
-
 
 </body></html
 >
