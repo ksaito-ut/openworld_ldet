@@ -83,6 +83,8 @@ Update the line in [builtin.py](https://github.com/ksaito-ut/openworld_ldet/blob
 
 
 ## Trained models
+The trained weights are available from link attached with <a>model</a>.
+
 <table><tbody>
 <!-- START TABLE -->
 <!-- TABLE HEADER -->
