@@ -134,7 +134,7 @@ The trained weights are available from link attached with <a>model</a>.
 <td align="center">47.9</td>
 <td align="center">15.6</td>
 <td align="center">38.6</td>
-<td align="center"><a href="">model</a>&nbsp;|&nbsp;<a href="configs/COCO/mask_rcnn_R_50_FPN.yaml">config</a>
+<td align="center"><a href="https://drive.google.com/file/d/1LEgTJwBJw_tlqLqLwRix1kp-rgJb34Zy/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/COCO/mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
 </tr>
 
