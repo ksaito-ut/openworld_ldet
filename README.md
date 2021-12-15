@@ -114,7 +114,7 @@ The trained weights are available from link attached with <a>model</a>.
 <td align="center">27.1</td>
 <td align="center">6.0</td>
 <td align="center">23.7</td>
-<td align="center"><a href="">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
+<td align="center"><a href="https://drive.google.com/file/d/1ooo0vLFC_LSZA_eDgMU1GNzsiN0FcqbI/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
 <!-- ROW: LDET -->
 <tr><td align="center"><a href="tools/trainer_ldet.py">LDET</a></td>
 <td align="center">VOC-COCO</td>
