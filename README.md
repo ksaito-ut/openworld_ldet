@@ -105,7 +105,7 @@ The trained weights are available from link attached with <a>model</a>.
 <td align="center">20.9</td>
 <td align="center">7.2</td>
 <td align="center">17.7</td>
-<td align="center"><a href="https://drive.google.com/file/d/1Iszjt6eLXcNLqGNAlxl-SyQVbc_PEHt1/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
+<td align="center"><a href="https://drive.google.com/file/d/1-38ADOW0T4dfd7BhhCm_Fro9_WoB_nH-/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
 <!-- ROW: Sampling -->
  <tr><td align="center"><a href="tools/trainer_plain.py">Mask RCNN<sup>S</sup></a></td>
 <td align="center">VOC-COCO</td>
@@ -123,7 +123,7 @@ The trained weights are available from link attached with <a>model</a>.
 <td align="center">34.8</td>
 <td align="center">9.0</td>
 <td align="center">31.0</td>
-<td align="center"><a href="https://drive.google.com/file/d/1I00ZZHuJxvo0dsrsv-V9e8lNS1kknUFv/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a>
+<td align="center"><a href="https://drive.google.com/file/d/1TkoQw6ULKgpvqHAuvcCCPGa2Km6KEOj8/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
 </tr>
 
