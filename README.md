@@ -12,6 +12,9 @@ If you use this code for your research, please cite:
 
 Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. </em> [[Bibtex]](https://github.com/ksaito-ut/openworld_ldet/docs/bib.txt)
 
+## News
+[2022/02/20] We find a bug in evaluation code and are rewriting the paper. Please contact the authors if you plan to cite our papers. 
+
 ## Installation
 
 **Requirements**
