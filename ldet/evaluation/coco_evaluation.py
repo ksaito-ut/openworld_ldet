@@ -25,15 +25,15 @@ from detectron2.utils.file_io import PathManager
 from detectron2.utils.logger import create_small_table
 from detectron2.evaluation.evaluator import DatasetEvaluator
 from .coco_open_evaluator import COCOEvalXclassWrapper
+from detectron2.data.datasets.builtin_meta import COCO_CATEGORIES
 
 pascal_classes = ['airplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
     'cat', 'chair', 'cow', 'dining table', 'dog', 'horse',
     'motorcycle', 'person', 'potted plant', 'sheep', 'couch',
     'train', 'tv']
-coco_meta = MetadataCatalog.get("coco_2017_train")
-#import pdb
-#pdb.set_trace()
-pascal_ids = [coco_meta.class_names.index(name_cat) for name_cat in pascal_classes]
+coco_names = {cats["name"]:cats["id"] for cats in COCO_CATEGORIES}
+pascal_ids = [coco_names[name_cat] for name_cat in pascal_classes]
+
 
 class COCOEvaluator(DatasetEvaluator):
     """
