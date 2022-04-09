@@ -14,6 +14,7 @@ Kuniaki Saito, Ping Hu, Trevor Darrell, Kate Saenko. In Arxiv 2021. </em> [[Bibt
 
 ## News
 [2022/02/20] We find a bug in evaluation code and are rewriting the paper. Please contact the authors if you plan to cite our papers. 
+
 [2022/03/11] We fixed the bug in ldet/evaluation/coco_evaluation.py. The pascal class id was not indexed correctly. We will further update the repo following our updated paper.
 
 ## Installation
