@@ -86,6 +86,11 @@ uvo_frames_sparse/video2/0.png
 - [Mapillary](https://www.mapillary.com/dataset/vistas).
 Update the line in [builtin.py](https://github.com/ksaito-ut/openworld_ldet/blob/884cbd1eec347f7c1d0bd36bba0c2b1cc5c2cdc4/ldet/data/builtin.py#L37).
 
+- [Obj365](https://open.baai.ac.cn/data-set-detail/MTI2NDc=/MTA=/true).
+We used [validation set](https://open.baai.ac.cn/data-set-detail/MTI2NDc=/MTA=/true#:~:text=zhiyuan_objv2_val.-,json,-%E8%AE%AD%E7%BB%83%E9%9B%86).
+We pick 5000 images for evaluation. The json is available [here](https://drive.google.com/file/d/1WAeVviaNZTMUNnOfdhOUQWoRajT3Zc6V/view?usp=sharing).
+Please rewrite the path of the lists following your environment.
+
 
 ## Trained models
 The trained weights are available from link attached with <a>model</a>.
@@ -106,28 +111,28 @@ The trained weights are available from link attached with <a>model</a>.
  <tr><td align="center"><a href="tools/trainer_plain.py">Mask RCNN</a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC</td>
-<td align="center">8.9</td>
-<td align="center">20.9</td>
-<td align="center">7.2</td>
-<td align="center">17.7</td>
+<td align="center">1.5</td>
+<td align="center">10.9</td>
+<td align="center">0.7</td>
+<td align="center">9.1</td>
 <td align="center"><a href="https://drive.google.com/file/d/1-38ADOW0T4dfd7BhhCm_Fro9_WoB_nH-/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
 <!-- ROW: Sampling -->
  <tr><td align="center"><a href="tools/trainer_plain.py">Mask RCNN<sup>S</sup></a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC</td>
-<td align="center">8.3</td>
-<td align="center">27.1</td>
-<td align="center">6.0</td>
-<td align="center">23.7</td>
+<td align="center">3.4</td>
+<td align="center">18.0</td>
+<td align="center">2.2</td>
+<td align="center">15.8</td>
 <td align="center"><a href="https://drive.google.com/file/d/1ooo0vLFC_LSZA_eDgMU1GNzsiN0FcqbI/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a></td>
 <!-- ROW: LDET -->
 <tr><td align="center"><a href="tools/trainer_ldet.py">LDET</a></td>
 <td align="center">VOC-COCO</td>
 <td align="center">Non-VOC</td>
-<td align="center">10.2</td>
-<td align="center">34.8</td>
-<td align="center">9.0</td>
-<td align="center">31.0</td>
+<td align="center">5.0</td>
+<td align="center">30.8</td>
+<td align="center">4.7</td>
+<td align="center">27.4</td>
 <td align="center"><a href="https://drive.google.com/file/d/1TkoQw6ULKgpvqHAuvcCCPGa2Km6KEOj8/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
 </tr>
@@ -135,10 +140,10 @@ The trained weights are available from link attached with <a>model</a>.
 <tr><td align="center"><a href="tools/trainer_plain.py">Mask RCNN<sup>S</sup></a></td>
 <td align="center">COCO</td>
 <td align="center">UVO</td>
-<td align="center">21.3</td>
-<td align="center">47.9</td>
-<td align="center">15.6</td>
-<td align="center">38.6</td>
+<td align="center">25.3</td>
+<td align="center">42.3</td>
+<td align="center">20.6</td>
+<td align="center">35.9</td>
 <td align="center"><a href="https://drive.google.com/file/d/1LEgTJwBJw_tlqLqLwRix1kp-rgJb34Zy/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/COCO/mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
 </tr>
@@ -147,10 +152,10 @@ The trained weights are available from link attached with <a>model</a>.
 <tr><td align="center"><a href="tools/trainer_ldet.py">LDET</a></td>
 <td align="center">COCO</td>
 <td align="center">UVO</td>
-<td align="center">26.1</td>
-<td align="center">53.1</td>
-<td align="center">21.1</td>
-<td align="center">43.0</td>
+<td align="center">25.8</td>
+<td align="center">47.5</td>
+<td align="center">21.9</td>
+<td align="center">40.7</td>
 <td align="center"><a href="https://drive.google.com/file/d/1A3CXQig95PR5sMA5IjhiqqxCT4lSQRi1/view?usp=sharing">model</a>&nbsp;|&nbsp;<a href="configs/COCO/mask_rcnn_R_50_FPN.yaml">config</a>
 </td>
 </tr>
@@ -177,7 +182,7 @@ To evaluate the trained models, run
 ```angular2html
 ## Test on Non-VOC-COCO
 sh tools/run_test.sh configs/VOC-COCO/voc_coco_mask_rcnn_R_50_FPN.yaml weight_to_eval
-## Test on UVO
+## Test on UVO, Obj365
 sh tools/run_test.sh configs/COCO/mask_rcnn_R_50_FPN.yaml weight_to_eval
 ## Test on Mapillary
 sh tools/run_test.sh configs/Cityscapes/mask_rcnn_R_50_FPN.yaml weight_to_eval
