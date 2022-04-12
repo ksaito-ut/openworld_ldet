@@ -30,12 +30,30 @@ _PREDEFINED_SPLITS_COCO["coco"] = {
     "coco_2017_val_out_voc": ("coco/val2017", "coco/annotations/instances_val2017.json"),
 }
 
+
+_PREDEFINED_SPLITS_OBJ365 = {}
+_PREDEFINED_SPLITS_OBJ365['obj365'] =  {"obj365": ("coco/Objects365/images/val", "coco/Objects365/selected_obj365_val.json")}
+
+
+
 _PREDEFINED_SPLITS_UVO = {}
 _PREDEFINED_SPLITS_UVO['uvo'] =  {"uvo_val": ("coco/uvo/uvo_frames_sparse", "coco/uvo/UVO_frame_val_exist.json")}
 
 _PREDEFINED_SPLITS_MAP = {}
 _PREDEFINED_SPLITS_MAP['map'] =  {"map_val": ("path/mapillary-vistas/mapillary-vistas-dataset_public_v2.0/validation/images",
                                               "path/instances_shape_validation2020.json")}
+
+
+def register_obj365(root):
+    for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_OBJ365.items():
+        for key, (image_root, json_file) in splits_per_dataset.items():
+            register_coco_instances(
+                key,
+                _get_builtin_metadata(dataset_name),
+                os.path.join(root, json_file) if "://" not in json_file else json_file,
+                os.path.join(root, image_root),
+    )
+
 
 def register_mapillary(root):
     for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_MAP.items():
@@ -137,7 +155,6 @@ def register_all_cityscapes(root):
 
 _root = os.getenv("DETECTRON2_DATASETS", "datasets")
 register_all_coco(_root)
+register_obj365(_root)
 register_uvo(_root)
 register_mapillary(_root)
-#register_all_lvis(_root)
-#register_all_cityscapes(_root)

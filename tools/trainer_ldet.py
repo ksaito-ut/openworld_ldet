@@ -35,12 +35,15 @@ from detectron2.utils.events import (
     JSONWriter,
     TensorboardXWriter,
 )
+import sys
+sys.path.append(os.getcwd().replace("tools", ""))
 from ldet.engine import add_copypaste_config
 from ldet.data import CopyPasteMapper, build_detection_test_loader, build_detection_train_loader
 from ldet.evaluation import COCOEvaluator,  inference_on_dataset
 from ldet.modeling import build_model
 logger = logging.getLogger("openworld")
-
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def get_evaluator(cfg, dataset_name, output_folder=None):
     """
@@ -63,7 +66,7 @@ def get_evaluator(cfg, dataset_name, output_folder=None):
     return DatasetEvaluators(evaluator_list)
 
 
-def do_test(cfg, model):
+def do_test(cfg, model, args):
     results = OrderedDict()
     for dataset_name in cfg.DATASETS.TEST:
         data_loader = build_detection_test_loader(cfg, dataset_name)
@@ -71,11 +74,14 @@ def do_test(cfg, model):
         evaluator = get_evaluator(
             cfg, dataset_name, os.path.join(cfg.OUTPUT_DIR, "inference", dataset_name)
         )
-        if "out" in dataset_name:
-            exclude_pascal = True
-        else:
-            exclude_pascal = False
-        results_i = inference_on_dataset(model, data_loader, evaluator, agnostic=True,  exclude_pascal=exclude_pascal)
+        eval_obj365 = True if "obj365" in dataset_name else False
+        results_i = inference_on_dataset(model,
+                                         data_loader,
+                                         evaluator,
+                                         agnostic=True,
+                                         exclude_known=args.exclude_known if 'uvo' not in dataset_name else False,
+                                         classwise_mode=args.classwise_mode if 'uvo' not in dataset_name else False,
+                                         eval_obj365=eval_obj365)
         results[dataset_name] = results_i
         if comm.is_main_process():
             logger.info("Evaluation results for {} in csv format:".format(dataset_name))
@@ -207,7 +213,7 @@ def main(args):
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
             cfg.MODEL.WEIGHTS, resume=args.resume
         )
-        return do_test(cfg, model)
+        return do_test(cfg, model, args)
 
     distributed = comm.get_world_size() > 1
     if distributed:
@@ -216,11 +222,14 @@ def main(args):
         )
 
     do_train(cfg, model, resume=args.resume)
-    return do_test(cfg, model)
+    return do_test(cfg, model, args)
 
 
 if __name__ == "__main__":
-    args = default_argument_parser().parse_args()
+    parser = default_argument_parser()
+    parser.add_argument("--classwise-mode", default=False, action='store_true', help="class wise output")
+    parser.add_argument("--exclude-known", default=False, action='store_true', help="novel class evaluation")
+    args = parser.parse_args()
     print("Command Line Args:", args)
     launch(
         main,

@@ -1,5 +1,6 @@
 """This file contains code for evaluation on cross-category generalization.
-Reference:
+We added class-wise AR evaluation.
+Reference.
     "Learning Open-World Object Proposals without Learning to Classify",
         Aug 2021. https://arxiv.org/abs/2108.06753
         Dahun Kim, Tsung-Yi Lin, Anelia Angelova, In So Kweon and Weicheng Kuo
@@ -11,6 +12,8 @@ import time
 from collections import defaultdict
 import copy
 from pycocotools.cocoeval import COCOeval
+from pycocotools import mask as maskUtils
+
 
 class COCOEvalWrapper(COCOeval):
     """ COCOEvalWrapper class."""
@@ -26,6 +29,15 @@ class COCOEvalWrapper(COCOeval):
             iStr = ' {:<18} {} @[ IoU={:<9} | area={:>6s} | maxDets={:>3d} ] = {:0.3f}'
             titleStr = 'Average Precision' if ap == 1 else 'Average Recall'
             typeStr = '(AP)' if ap == 1 else '(AR)'
+            if ap == 1:
+                titleStr = 'Average Precision'
+                typeStr = '(AP)'
+            elif ap == 0:
+                titleStr = 'Average Recall'
+                typeStr = '(AR)'
+            elif ap == 2:
+                titleStr = 'F-score'
+                typeStr = '(F)'
             iouStr = '{:0.2f}:{:0.2f}'.format(p.iouThrs[0], p.iouThrs[-1]) \
                 if iouThr is None else '{:0.2f}'.format(iouThr)
 
@@ -39,19 +51,48 @@ class COCOEvalWrapper(COCOeval):
                     t = np.where(iouThr == p.iouThrs)[0]
                     s = s[t]
                 s = s[:, :, :, aind, mind]
-            else:
+            elif ap == 0:
                 # dimension of recall: [TxKxAxM]
                 s = self.eval['recall']
                 if iouThr is not None:
                     t = np.where(iouThr == p.iouThrs)[0]
                     s = s[t]
                 s = s[:, :, aind, mind]
+            elif ap == 2:
+                s_p = self.eval['precision']
+                # IoU
+                if iouThr is not None:
+                    t = np.where(iouThr == p.iouThrs)[0]
+                    s_p = s_p[t]
+                s_p = s_p[:, :, :, aind, mind]
+                #if len(s_p[s_p > -1]) == 0:
+                #    mean_s_p = -1
+                #else:
+                #    mean_s_p = np.mean(s_p[s_p > -1])
+
+                s_r = self.eval['recall']
+                # IoU
+                if iouThr is not None:
+                    t = np.where(iouThr == p.iouThrs)[0]
+                    s_r = s_r[t]
                 #import pdb
                 #pdb.set_trace()
-            if len(s[s > -1]) == 0:
-                mean_s = -1
-            else:
-                mean_s = np.mean(s[s > -1])
+                s_r = s_r[:, :, aind, mind]
+                #if len(s_r[s_r > -1]) == 0:
+                #    mean_s_r = -1
+                #else:
+                #    mean_s_r = np.mean(s_r[s_r > -1])
+
+                tmp = s_p > -1
+                s_p = np.mean(s_p[tmp].reshape(tmp.shape[0], tmp.shape[1]), axis=1)
+                s_r = s_r[:, 0, 0]
+
+                mean_s = np.mean(2 * (s_p * s_r / (s_p+s_r)))
+            if ap <= 1:
+                if len(s[s > -1]) == 0:
+                    mean_s = -1
+                else:
+                    mean_s = np.mean(s[s > -1])
             #import pdb
             #pdb.set_trace()
 
@@ -60,25 +101,22 @@ class COCOEvalWrapper(COCOeval):
             return mean_s
 
         def _summarizeDets():
-            stats = np.zeros((22,))
+            stats = np.zeros((23,))
             stats[0] = _summarize(1)
             stats[1] = _summarize(1, iouThr=.5, maxDets=100)
             stats[2] = _summarize(1, iouThr=.75, maxDets=100)
             stats[3] = _summarize(1, areaRng='small', maxDets=100)
             stats[4] = _summarize(1, areaRng='medium', maxDets=100)
             stats[5] = _summarize(1, areaRng='large', maxDets=100)
-            stats[19] = _summarize(1, maxDets=1)
-            stats[20] = _summarize(1, maxDets=10)
-            stats[21] = _summarize(1, maxDets=100)
+            #stats[19] = _summarize(1, maxDets=1)
+            #stats[20] = _summarize(1, maxDets=10)
+            #stats[21] = _summarize(1, maxDets=100)
             stats[6] = _summarize(0, maxDets=self.params.maxDets[0])
             stats[7] = _summarize(0, maxDets=self.params.maxDets[1])
             stats[8] = _summarize(0, maxDets=self.params.maxDets[2])
             stats[9] = _summarize(0, maxDets=self.params.maxDets[3])
             stats[10] = _summarize(0, maxDets=self.params.maxDets[4])
-            stats[11] = _summarize(0, maxDets=self.params.maxDets[5])
-            # stats[12] = _summarize(0, maxDets=self.params.maxDets[6])
-            # stats[13] = _summarize(0, maxDets=self.params.maxDets[7])
-            # stats[14] = _summarize(0, maxDets=self.params.maxDets[8])
+            #stats[11] = _summarize(0, maxDets=self.params.maxDets[5])
             stats[15] = _summarize(0, areaRng='small', maxDets=100)
             stats[16] = _summarize(0, areaRng='medium', maxDets=100)
             stats[17] = _summarize(0, areaRng='large', maxDets=100)
@@ -86,6 +124,7 @@ class COCOEvalWrapper(COCOeval):
             stats[19] = _summarize(0, iouThr=.5, maxDets=30)
             stats[20] = _summarize(0, iouThr=.5, maxDets=50)
             stats[21] = _summarize(0, iouThr=.5, maxDets=100)
+            #stats[22] = _summarize(2, maxDets=100)
 
 
             return stats
@@ -108,6 +147,36 @@ class COCOEvalXclassWrapper(COCOEvalWrapper):
     (AR@k) scores.
     """
 
+    def computeIoU(self, imgId, catId):
+        p = self.params
+        if p.useCats:
+            gt = self._gts[imgId, catId]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
+            #dt = self._dts[imgId, catId]
+        else:
+            gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
+        if len(gt) == 0 and len(dt) == 0:
+            return []
+        inds = np.argsort([-d['score'] for d in dt], kind='mergesort')
+        dt = [dt[i] for i in inds]
+        if len(dt) > p.maxDets[-1]:
+            dt = dt[0:p.maxDets[-1]]
+
+        if p.iouType == 'segm':
+            g = [g['segmentation'] for g in gt]
+            d = [d['segmentation'] for d in dt]
+        elif p.iouType == 'bbox':
+            g = [g['bbox'] for g in gt]
+            d = [d['bbox'] for d in dt]
+        else:
+            raise Exception('unknown iouType for iou computation')
+
+        # compute iou between each dt and gt region
+        iscrowd = [int(o['iscrowd']) for o in gt]
+        ious = maskUtils.iou(d, g, iscrowd)
+        return ious
+
     def evaluateImg(self, imgId, catId, aRng, maxDet):
         '''
         perform evaluation for single category and image
@@ -116,7 +185,8 @@ class COCOEvalXclassWrapper(COCOEvalWrapper):
         p = self.params
         if p.useCats:
             gt = self._gts[imgId, catId]
-            dt = self._dts[imgId, catId]
+            #dt = self._dts[imgId, catId]
+            dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
         else:
             gt = [_ for cId in p.catIds for _ in self._gts[imgId, cId]]
             dt = [_ for cId in p.catIds for _ in self._dts[imgId, cId]]
@@ -128,13 +198,9 @@ class COCOEvalXclassWrapper(COCOEvalWrapper):
                 g['_ignore'] = 1
             else:
                 g['_ignore'] = 0
-            #import pdb
-            #pdb.set_trace()
             # Class manipulation: ignore the 'ignored_split'
             if 'ignored_split' in g and g['ignored_split'] == 1:
                 g['_ignore'] = 1
-        #import pdb
-        #pdb.set_trace()
         # sort dt highest score first, sort gt ignore last
         gtind = np.argsort([g['_ignore'] for g in gt], kind='mergesort')
         gt = [gt[i] for i in gtind]

@@ -9,7 +9,10 @@ from detectron2.evaluation import DatasetEvaluators, inference_context
 logger = setup_logger(name=__name__)
 
 def inference_on_dataset(model, data_loader, evaluator,
-                         agnostic=True, exclude_pascal=False):
+                         agnostic=True,
+                         exclude_known=False,
+                         classwise_mode=False,
+                         eval_obj365=False):
     """
     Run model on the data_loader and evaluate the metrics with evaluator.
     Also benchmark the inference speed of `model.forward` accurately.
@@ -36,7 +39,9 @@ def inference_on_dataset(model, data_loader, evaluator,
     num_devices = get_world_size()
     logger.info("Start inference on {} images".format(len(data_loader)))
     logger.info("Class agnostic evaluation == {}".format(agnostic))
-    logger.info("Exclude pascal categories? == {}".format(exclude_pascal))
+    logger.info("Classwise AR evaluation == {}".format(classwise_mode))
+    logger.info("Evaluation on obj365 == {}".format(eval_obj365))
+    logger.info("Exclude known categories? == {}".format(exclude_known))
     total = len(data_loader)  # inference data loader must have a fixed length
     if evaluator is None:
         # create a no-op evaluator
@@ -86,7 +91,10 @@ def inference_on_dataset(model, data_loader, evaluator,
         )
     )
     if agnostic:
-        results = evaluator.evaluate(agnostic_mode=True, exclude_pascal=exclude_pascal)
+        results = evaluator.evaluate(agnostic_mode=True,
+                                     exclude_known=exclude_known,
+                                     eval_obj365=eval_obj365,
+                                     classwise_mode=classwise_mode)
     else:
         results = evaluator.evaluate()
     # An evaluator may return None when not in main process.

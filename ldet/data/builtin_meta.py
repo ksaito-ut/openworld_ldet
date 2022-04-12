@@ -14,6 +14,7 @@ Users don't have to download a COCO json (which contains metadata), in order to 
 COCO model (with correct class names and colors).
 """
 
+from .meta_obj365 import cat_obj365
 
 # All coco categories, together with their nice-looking visualization colors
 # It's from https://github.com/cocodataset/panopticapi/blob/master/panoptic_coco_categories.json
@@ -520,7 +521,9 @@ def _get_builtin_metadata(dataset_name):
         }
     elif dataset_name == "uvo":
         return {"thing_classes": ['object']}
-
+    elif dataset_name == "obj365":
+        classes = [inst['name'] for inst in cat_obj365]
+        return {"thing_classes": classes}
     elif dataset_name == "map":
         classes = [inst["name"] for inst in MAP_CATEGORIES]
         return {"thing_classes": classes}

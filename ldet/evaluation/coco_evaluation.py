@@ -22,10 +22,11 @@ from detectron2.data.datasets.coco import convert_to_coco_json
 from detectron2.evaluation.fast_eval_api import COCOeval_opt
 from detectron2.structures import Boxes, BoxMode, pairwise_iou
 from detectron2.utils.file_io import PathManager
-from detectron2.utils.logger import create_small_table
+from detectron2.utils.logger import create_small_table, setup_logger
 from detectron2.evaluation.evaluator import DatasetEvaluator
 from .coco_open_evaluator import COCOEvalXclassWrapper
 from detectron2.data.datasets.builtin_meta import COCO_CATEGORIES
+from ldet.data.meta_obj365 import cat_obj365
 
 pascal_classes = ['airplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
     'cat', 'chair', 'cow', 'dining table', 'dog', 'horse',
@@ -33,7 +34,26 @@ pascal_classes = ['airplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
     'train', 'tv']
 coco_names = {cats["name"]:cats["id"] for cats in COCO_CATEGORIES}
 pascal_ids = [coco_names[name_cat] for name_cat in pascal_classes]
-
+coco_meta = MetadataCatalog.get("coco_2017_train")
+coco_classes = [name.title() for name in coco_meta.class_names]
+coco_classes[coco_classes.index("Parking Meter")] = "Parking meter"
+coco_classes[coco_classes.index("Bird")] = "Wild Bird"
+coco_classes[coco_classes.index("Handbag")] = "Handbag/Satchel"
+coco_classes[coco_classes.index("Skis")] = "Skiboard"
+coco_classes[coco_classes.index("Bowl")] = "Bowl/Basin"
+coco_classes[coco_classes.index("Orange")] = "Orange/Tangerine"
+coco_classes[coco_classes.index("Hot Dog")] = "Hot dog"
+coco_classes[coco_classes.index("Dining Table")] = "Dinning Table"
+coco_classes[coco_classes.index("Tv")] = "Moniter/TV"
+coco_classes[coco_classes.index("Hair Drier")] = "Hair Dryer"
+coco_classes.remove("Suitcase")
+coco_classes.remove("Sports Ball")
+coco_classes.remove("Teddy Bear")
+coco_classes.append("Baseball")
+coco_classes.append("Basketball")
+coco_classes.append("American Football")
+obj365_names = {cats["name"]:cats["id"] for cats in cat_obj365}
+coco_ids_obj = [obj365_names[name_cat] for name_cat in coco_classes]
 
 class COCOEvaluator(DatasetEvaluator):
     """
@@ -87,7 +107,8 @@ class COCOEvaluator(DatasetEvaluator):
                 When empty, it will use the defaults in COCO.
                 Otherwise it should be the same length as ROI_KEYPOINT_HEAD.NUM_KEYPOINTS.
         """
-        self._logger = logging.getLogger(__name__)
+        #self._logger = logging.getLogger(__name__)
+        self._logger = setup_logger(name=__name__)
         self._distributed = distributed
         self._output_dir = output_dir
         self._use_fast_impl = use_fast_impl
@@ -149,7 +170,11 @@ class COCOEvaluator(DatasetEvaluator):
             if len(prediction) > 1:
                 self._predictions.append(prediction)
 
-    def evaluate(self, img_ids=None, agnostic_mode=False, exclude_pascal=False):
+    def evaluate(self, img_ids=None,
+                 agnostic_mode=False,
+                 eval_obj365=False,
+                 exclude_known=False,
+                 classwise_mode=False):
         """
         Args:
             img_ids: a list of image IDs to evaluate on. Default to None for the whole dataset
@@ -179,7 +204,8 @@ class COCOEvaluator(DatasetEvaluator):
         if "instances" in predictions[0]:
             self._eval_predictions(predictions, img_ids=img_ids,
                                    agnostic_mode=agnostic_mode,
-                                   exclude_pascal=exclude_pascal)
+                                   exclude_known=exclude_known,
+                                   classwise_mode=classwise_mode)
         # Copy so the caller can do whatever with results
         return copy.deepcopy(self._results)
 
@@ -196,11 +222,14 @@ class COCOEvaluator(DatasetEvaluator):
         return sorted(tasks)
 
     def _eval_predictions(self, predictions, img_ids=None,
-                          agnostic_mode=False, exclude_pascal=False):
+                          agnostic_mode=False,
+                          classwise_mode=False,
+                          exclude_known=False,
+                          eval_obj365=False):
         """
         Evaluate predictions. Fill self._results with the metrics of the tasks.
         if agnostic_mode is true, evaluation is done in a class agnostic way.
-        We activate exclude_pascal when evaluating VOC-COCO to Non-VOC-COCO.
+        We activate exclude_known when evaluating VOC-COCO to Non-VOC-COCO.
 
         """
         import math
@@ -255,18 +284,42 @@ class COCOEvaluator(DatasetEvaluator):
                     task,
                     kpt_oks_sigmas=self._kpt_oks_sigmas,
                     use_fast_impl=self._use_fast_impl,
+                    classwise_mode=classwise_mode,
                     img_ids=img_ids,
                     agnostic_mode=agnostic_mode,
-                    exclude_pascal=exclude_pascal,
+                    exclude_known=exclude_known,
                 )
                 if len(coco_results) > 0
                 else None  # cocoapi does not handle empty results very well
             )
-
             res = self._derive_coco_results(
-                coco_eval, task, class_names=self._metadata.get("thing_classes") if not agnostic_mode else None
+                coco_eval, task,
+                class_names=self._metadata.get("thing_classes") if not agnostic_mode or classwise_mode else None,
+                eval_mode='agnostic' if agnostic_mode and not classwise_mode else 'classwise'
             )
             self._results[task] = res
+
+            coco_eval = (
+                _evaluate_predictions_on_coco(
+                    self._coco_api,
+                    coco_results,
+                    task,
+                    kpt_oks_sigmas=self._kpt_oks_sigmas,
+                    use_fast_impl=self._use_fast_impl,
+                    classwise_mode=True,
+                    img_ids=img_ids,
+                    agnostic_mode=True,
+                    exclude_known=exclude_known,
+                )
+                if len(coco_results) > 0
+                else None  # cocoapi does not handle empty results very well
+            )
+            res = self._derive_coco_results(
+                coco_eval, task,
+                class_names=self._metadata.get("thing_classes"),
+                eval_mode='classwise'
+            )
+            self._results[task+'class_wise'] = res
 
     def _eval_box_proposals(self, predictions):
         """
@@ -307,7 +360,7 @@ class COCOEvaluator(DatasetEvaluator):
         self._logger.info("Proposal metrics: \n" + create_small_table(res))
         self._results["box_proposals"] = res
 
-    def _derive_coco_results(self, coco_eval, iou_type, class_names=None):
+    def _derive_coco_results(self, coco_eval, iou_type, class_names=None, eval_mode='agnostic'):
         """
         Derive the desired score numbers from summarized COCOeval.
 
@@ -320,10 +373,10 @@ class COCOEvaluator(DatasetEvaluator):
         Returns:
             a dict of {metric name: score}
         """
-
+        # params.maxDets = (10, 20, 30, 50, 100)
         metrics = {
-            "bbox": ["AP", "AP50", "AP75", "APs", "APm", "APl", "AR"],
-            "segm": ["AP", "AP50", "AP75", "APs", "APm", "APl"],
+            "bbox": ["AP", "AP50", "AP75", "APs", "APm", "APl", "AR10", "AR20", "AR30", "AR50", "AR100"],
+            "segm": ["AP", "AP50", "AP75", "APs", "APm", "APl", "AR10", "AR20", "AR30", "AR50", "AR100"],
             "keypoints": ["AP", "AP50", "AP75", "APm", "APl"],
         }[iou_type]
 
@@ -334,8 +387,8 @@ class COCOEvaluator(DatasetEvaluator):
         # the standard metrics
         results = {
             metric: float(coco_eval.stats[idx] * 100 if coco_eval.stats[idx] >= 0 else "nan")
-            for idx, metric in enumerate(metrics)
-        }
+            for idx, metric in enumerate(metrics) if ('AP' in metric and eval_mode == 'agnostic') or 'AR' in metric
+            }
         self._logger.info(
             "Evaluation results for {}: \n".format(iou_type) + create_small_table(results)
         )
@@ -354,6 +407,8 @@ class COCOEvaluator(DatasetEvaluator):
         for idx, name in enumerate(class_names):
             # area range index 0: all area ranges
             # max dets index -1: typically 100 per image
+            # import pdb
+            # pdb.set_trace()
             precision = precisions[:, :, idx, 0, -1]
             precision = precision[precision > -1]
             ap = np.mean(precision) if precision.size else float("nan")
@@ -370,11 +425,31 @@ class COCOEvaluator(DatasetEvaluator):
             headers=["category", "AP"] * (N_COLS // 2),
             numalign="left",
         )
-        self._logger.info("Per-category {} AP: \n".format(iou_type) + table)
+        results_per_category = []
+        recalls = coco_eval.eval["recall"]
+        for idx, name in enumerate(class_names):
+            # area range index 0: all area ranges
+            # max dets index -1: typically 100 per image
+            recall = recalls[:, idx, 0, -1]
+            # precision = precisions[:, :, idx, 0, -1]
+            recall = recall[recall > -1]
+            ap = np.mean(recall) if recall.size else float("nan")
+            results_per_category.append(("{}".format(name), float(ap * 100)))
 
-        results.update({"AP-" + name: ap for name, ap in results_per_category})
+        # tabulate it
+        N_COLS = min(6, len(results_per_category) * 2)
+        results_flatten = list(itertools.chain(*results_per_category))
+        results_2d = itertools.zip_longest(*[results_flatten[i::N_COLS] for i in range(N_COLS)])
+        table = tabulate(
+            results_2d,
+            tablefmt="pipe",
+            floatfmt=".3f",
+            headers=["category", "AR"] * (N_COLS // 2),
+            numalign="left",
+        )
+        self._logger.info("Per-category {} AR: \n".format(iou_type) + table)
+        results.update({"AR-" + name: ap for name, ap in results_per_category})
         return results
-
 
 def instances_to_coco_json(instances, img_id):
     """
@@ -549,15 +624,20 @@ def _evaluate_box_proposals(dataset_predictions, coco_api, thresholds=None, area
 
 def _evaluate_predictions_on_coco(
     coco_gt, coco_results, iou_type, kpt_oks_sigmas=None, use_fast_impl=True,
-        img_ids=None, agnostic_mode=False, exclude_pascal=False,
-        ignore_known=True, check_file=True,):
+    img_ids=None,
+    agnostic_mode=False,
+    exclude_known=False,
+    eval_obj365=False,
+    classwise_mode=False,
+    ignore_known=True,
+    check_file=True,):
     """
     Evaluate the coco results using COCOEval API.
     agnostic mode activates class agnostic evaluation, i.e., ignoring classification within categories.
-    exclude_pascal is for VOC-COCO to Non-VOC-COCO evaluation.
+    exclude_known is for VOC-COCO to Non-VOC-COCO and COCO to Obj365 evaluation.
     ignore_known flag is to decide whether we ignore predictions for known categories in case of  VOC-COCO to Non-VOC-COCO.
-    If true, we do not include VOC categories to compute performance. If False, we compute performance on all categories.
-
+    If true, we do not include VOC categories to compute performance.
+    If False, we compute performance on all categories.
     """
     assert len(coco_results) > 0
 
@@ -576,9 +656,16 @@ def _evaluate_predictions_on_coco(
         for idx, ann in enumerate(coco_gt.dataset['annotations']):
             coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
 
-    if agnostic_mode and exclude_pascal:
+    if agnostic_mode and exclude_known:
         for idx, ann in enumerate(coco_gt.dataset['annotations']):
             if ann['category_id'] not in pascal_ids:
+                coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
+            else:
+                coco_gt.dataset['annotations'][idx]['ignored_split'] = 1
+
+    if agnostic_mode and eval_obj365 and exclude_known:
+        for idx, ann in enumerate(coco_gt.dataset['annotations']):
+            if ann['category_id'] not in coco_ids_obj:
                 coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
             else:
                 coco_gt.dataset['annotations'][idx]['ignored_split'] = 1
@@ -587,10 +674,12 @@ def _evaluate_predictions_on_coco(
         coco_eval = (COCOeval_opt if use_fast_impl else COCOeval)(coco_gt, coco_dt, iou_type)
     else:
         coco_eval = COCOEvalXclassWrapper(coco_gt, coco_dt, iou_type)
-
+    coco_eval.params.maxDets = (10, 20, 30, 50, 100)
     if agnostic_mode:
         coco_eval.params.useCats = 0
-        coco_eval.params.maxDets = (10, 20, 30, 50, 100, 300)
+
+    if classwise_mode:
+        coco_eval.params.useCats = 1
     if img_ids is not None:
         coco_eval.params.imgIds = img_ids
 
