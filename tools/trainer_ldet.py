@@ -56,7 +56,7 @@ def get_evaluator(cfg, dataset_name, output_folder=None):
         output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
     evaluator_list = []
     evaluator_type = MetadataCatalog.get(dataset_name).evaluator_type
-    evaluator_list.append(COCOEvaluator(dataset_name, output_dir=output_folder, tasks=("bbox", "segm")))
+    evaluator_list.append(COCOEvaluator(dataset_name, output_dir=output_folder, tasks=("bbox", "segm") if 'obj365' not in dataset_name else ("bbox", )))
     if len(evaluator_list) == 0:
         raise NotImplementedError(
             "no Evaluator for the dataset {} with the type {}".format(dataset_name, evaluator_type)

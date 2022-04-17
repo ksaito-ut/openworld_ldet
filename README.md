@@ -190,3 +190,8 @@ sh tools/run_test.sh configs/COCO/mask_rcnn_R_50_FPN.yaml weight_to_eval
 sh tools/run_test.sh configs/Cityscapes/mask_rcnn_R_50_FPN.yaml weight_to_eval
 
 ```
+
+The above script will show two results: agnostic mode and classwise mode.
+The agnostic mode regards all instances as a single class while classwise mode makes distinction on different classes.
+To consider class imbalance, we report AR in classwise mode in our paper while reporting AP in agnostic mode.
+Note that the above script computes performance on novel classes. To get performance on all classes, please disable the flag of exclude_known.

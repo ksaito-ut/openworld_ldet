@@ -205,7 +205,8 @@ class COCOEvaluator(DatasetEvaluator):
             self._eval_predictions(predictions, img_ids=img_ids,
                                    agnostic_mode=agnostic_mode,
                                    exclude_known=exclude_known,
-                                   classwise_mode=classwise_mode)
+                                   classwise_mode=classwise_mode,
+                                   eval_obj365=eval_obj365)
         # Copy so the caller can do whatever with results
         return copy.deepcopy(self._results)
 
@@ -277,6 +278,7 @@ class COCOEvaluator(DatasetEvaluator):
             )
         )
         for task in sorted(tasks):
+            ## Class agnostic evaluation used to compute AP.
             coco_eval = (
                 _evaluate_predictions_on_coco(
                     self._coco_api,
@@ -286,6 +288,7 @@ class COCOEvaluator(DatasetEvaluator):
                     use_fast_impl=self._use_fast_impl,
                     classwise_mode=classwise_mode,
                     img_ids=img_ids,
+                    eval_obj365=eval_obj365,
                     agnostic_mode=agnostic_mode,
                     exclude_known=exclude_known,
                 )
@@ -298,7 +301,7 @@ class COCOEvaluator(DatasetEvaluator):
                 eval_mode='agnostic' if agnostic_mode and not classwise_mode else 'classwise'
             )
             self._results[task] = res
-
+            ## Class wise evaluation results used for AR computation.
             coco_eval = (
                 _evaluate_predictions_on_coco(
                     self._coco_api,
@@ -308,6 +311,7 @@ class COCOEvaluator(DatasetEvaluator):
                     use_fast_impl=self._use_fast_impl,
                     classwise_mode=True,
                     img_ids=img_ids,
+                    eval_obj365=eval_obj365,
                     agnostic_mode=True,
                     exclude_known=exclude_known,
                 )
@@ -319,7 +323,7 @@ class COCOEvaluator(DatasetEvaluator):
                 class_names=self._metadata.get("thing_classes"),
                 eval_mode='classwise'
             )
-            self._results[task+'class_wise'] = res
+            self._results[task+'_class_wise'] = res
 
     def _eval_box_proposals(self, predictions):
         """
@@ -389,6 +393,7 @@ class COCOEvaluator(DatasetEvaluator):
             metric: float(coco_eval.stats[idx] * 100 if coco_eval.stats[idx] >= 0 else "nan")
             for idx, metric in enumerate(metrics) if ('AP' in metric and eval_mode == 'agnostic') or 'AR' in metric
             }
+        self._logger.info("Evaluation mode {}".format(eval_mode))
         self._logger.info(
             "Evaluation results for {}: \n".format(iou_type) + create_small_table(results)
         )
@@ -657,15 +662,12 @@ def _evaluate_predictions_on_coco(
             coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
 
     if agnostic_mode and exclude_known:
+        if eval_obj365:
+            ids_known = coco_ids_obj
+        else:
+            ids_known = pascal_ids
         for idx, ann in enumerate(coco_gt.dataset['annotations']):
-            if ann['category_id'] not in pascal_ids:
-                coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
-            else:
-                coco_gt.dataset['annotations'][idx]['ignored_split'] = 1
-
-    if agnostic_mode and eval_obj365 and exclude_known:
-        for idx, ann in enumerate(coco_gt.dataset['annotations']):
-            if ann['category_id'] not in coco_ids_obj:
+            if ann['category_id'] not in ids_known:
                 coco_gt.dataset['annotations'][idx]['ignored_split'] = 0
             else:
                 coco_gt.dataset['annotations'][idx]['ignored_split'] = 1
@@ -675,11 +677,13 @@ def _evaluate_predictions_on_coco(
     else:
         coco_eval = COCOEvalXclassWrapper(coco_gt, coco_dt, iou_type)
     coco_eval.params.maxDets = (10, 20, 30, 50, 100)
+
     if agnostic_mode:
         coco_eval.params.useCats = 0
 
     if classwise_mode:
         coco_eval.params.useCats = 1
+
     if img_ids is not None:
         coco_eval.params.imgIds = img_ids
 
